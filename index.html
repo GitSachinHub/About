@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sachin Kumar | Cybernetic Gaming Core Portfolio</title>
+  
+  <!-- SEO Metadata -->
+  <meta name="description" content="Cinematic AAA-game inspired gaming portfolio of Sachin Kumar. Computer Science Engineer, Frontend Developer, and Creative UI Designer. Experience immersive animations, custom audio synthesizers, and 3D interactions.">
+  <meta name="keywords" content="Sachin Kumar, Portfolio, Cyberpunk Portfolio, Gaming Portfolio, Creative Developer, B.Tech CSE, Parul University, Web Developer, GSAP, HTML5 Canvas, Web Audio API">
+  <meta name="author" content="Sachin Kumar">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Futuristic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="crt-screen">
+
+  <!-- HTML5 Canvas for Starfield, Coordinate Grids, and Mouse Particle Attraction -->
+  <canvas id="gaming-canvas"></canvas>
+
+  <!-- Fullscreen Glitch/RGB Digital Noise Flash Overlay -->
+  <div id="glitch-noise-overlay"></div>
+
+  <!-- Custom Cinematic Target Reticle Cursor -->
+  <div id="cursor-glow"></div>
+  <div id="custom-cursor">
+    <div class="cursor-reticle"></div>
+  </div>
+
+  <!-- Sound Toggle Control HUD (Floating Element) -->
+  <div class="hud-audio-control" id="audio-toggle" title="Toggle System Sound & Voice">
+    <div class="audio-wave">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <span class="audio-status">SOUND: OFF</span>
+  </div>
+
+  <!-- ================= AAA GAME STARTUP LOADING SCREEN ================= -->
+  <div class="intro-screen-overlay" id="intro-screen">
+    <!-- Spinning HUD scanning dials -->
+    <div class="loader-hud-dials">
+      <div class="dial dial-outer"></div>
+      <div class="dial dial-middle"></div>
+      <div class="dial dial-inner"></div>
+      <div class="dial-center-reticle">
+        <i class="fas fa-radiation glow-icon"></i>
+      </div>
+    </div>
+
+    <!-- Initialization Diagnostics Panel -->
+    <div class="loader-hud-panel">
+      <div class="panel-scanner">
+        <div class="scan-bar"></div>
+      </div>
+      
+      <div class="panel-header">
+        <span class="hud-protocol-tag">OVERCLOCK ENGINE LOCK // ROOT HANDSHAKE</span>
+        <h2 id="boot-header">INITIALIZING SYSTEMS</h2>
+      </div>
+
+      <div class="console-loader">
+        <div class="console-log-stream" id="loader-console-stream">
+          <!-- Populated dynamically via JS -->
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="loader-progress-bar"></div>
+        </div>
+      </div>
+
+      <button class="gaming-btn enter-btn pulse-glow" id="start-experience-btn">
+        <span class="btn-text">CONNECT SYSTEM CORE</span>
+        <span class="btn-subtext">PORTAL_INIT_</span>
+      </button>
+
+      <div class="hud-specs">
+        <span>LOC: INDIA_NET_</span>
+        <span>SYS: FULL_SNAP</span>
+        <span>CORE: ACTIVE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SYSTEM OVERRIDE / SECRET MODE OVERLAY ================= -->
+  <div class="secret-mode-overlay" id="secret-overlay">
+    <div class="warning-glitch-box">
+      <div class="glitch-title" data-text="SYSTEM OVERRIDE">SYSTEM OVERRIDE</div>
+      <div class="glitch-subtitle">WELCOME DEVELOPER // OVERRIDE PROTOCOL 777 ENABLED</div>
+      <p class="warning-info">Konami code accepted. Normal neon UI colors overwritten. High-intensity red alert filters active. Full screen shake engaged.</p>
+      <div class="decrypted-keys">
+        <span>SK-SYS-RED: OVERRIDE</span>
+        <span>SECURITY_LOCK: BYPASSED</span>
+      </div>
+      <button class="gaming-btn restore-btn" id="restore-system-btn">
+        <span class="btn-text">RESTORE ORIGINAL THEME</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CINEMATIC DASHBOARD CONTAINER ================= -->
+  <div class="dashboard-wrapper" id="dashboard">
+
+    <!-- TOP BAR PANEL HUD -->
+    <header class="hud-header-panel">
+      <div class="hud-brand-container">
+        <span class="pulse-indicator"></span>
+        <h1 class="hud-brand-text">SACHIN_KUMAR // OS_CORE_v2.0</h1>
+      </div>
+      <div class="hud-system-status">
+        <div class="telemetry-block hide-mobile">
+          <span class="telemetry-label">SECTOR:</span>
+          <span class="telemetry-value text-cyan" id="hud-active-sector">OVERVIEW</span>
+        </div>
+        <div class="telemetry-block hide-mobile">
+          <span class="telemetry-label">UNIVERSITY NODE:</span>
+          <span class="telemetry-value text-purple" id="hud-university">PARUL_UNI_CSE</span>
+        </div>
+        <div class="telemetry-block">
+          <span class="telemetry-label">SYS_TIME:</span>
+          <span class="telemetry-value text-pink" id="hud-system-time">00:00:00</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-body-grid">
+      <!-- SIDEBAR FIXED MENU HUD -->
+      <aside class="hud-sidebar-panel">
+        <div class="sidebar-header-profile">
+          <div class="profile-avatar-wrapper">
+            <div class="avatar-frame-decors">
+              <span class="decor-corner top-left"></span>
+              <span class="decor-corner top-right"></span>
+              <span class="decor-corner bottom-left"></span>
+              <span class="decor-corner bottom-right"></span>
+            </div>
+            <img src="assets/avatar.png" alt="Sachin Kumar Profile Badge" class="profile-avatar-img" id="hud-avatar">
+          </div>
+          <div class="profile-meta-text">
+            <h3 class="profile-name" id="hud-profile-name">Sachin Kumar</h3>
+            <span class="profile-title" id="hud-profile-title">Developer & Engineer</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-navigation">
+          <button class="nav-hud-btn active-nav" data-index="0" data-target="sec-home">
+            <span class="btn-num">01</span>
+            <span class="btn-label">OVERVIEW</span>
+          </button>
+          <button class="nav-hud-btn" data-index="1" data-target="sec-about">
+            <span class="btn-num">02</span>
+            <span class="btn-label">CORE_BIO</span>
+          </button>
+          <button class="nav-hud-btn" data-index="2" data-target="sec-skills">
+            <span class="btn-num">03</span>
+            <span class="btn-label">MODULES</span>
+          </button>
+          <button class="nav-hud-btn" data-index="3" data-target="sec-projects">
+            <span class="btn-num">04</span>
+            <span class="btn-label">PROJECTS</span>
+          </button>
+          <button class="nav-hud-btn" data-index="4" data-target="sec-timeline">
+            <span class="btn-num">05</span>
+            <span class="btn-label">JOURNEY</span>
+          </button>
+          <button class="nav-hud-btn" data-index="5" data-target="sec-achievements">
+            <span class="btn-num">06</span>
+            <span class="btn-label">METRICS</span>
+          </button>
+          <button class="nav-hud-btn" data-index="6" data-target="sec-services">
+            <span class="btn-num">07</span>
+            <span class="btn-label">SERVICES</span>
+          </button>
+          <button class="nav-hud-btn" data-index="7" data-target="sec-contact">
+            <span class="btn-num">08</span>
+            <span class="btn-label">COMMS_LINK</span>
+          </button>
+        </nav>
+
+        <!-- Sidebar diagnostics displaying live coords -->
+        <div class="sidebar-hud-diagnostics">
+          <div class="radar-coords-header">SYSTEM COORDS:</div>
+          <div class="diagnostics-terminal" id="sidebar-logs">
+            <div class="log-line text-cyan" id="hud-mouse-coords">MOUSE_X: 000 | MOUSE_Y: 000</div>
+            <div class="log-line">> TRANSIT LOCK ACTIVE</div>
+            <div class="log-line">> WAITING FOR KEYPRESS INPUT...</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CONTENT PANELS SNAP CONTAINER -->
+      <main class="hud-main-panels-container" id="panels-container">
+        
+        <!-- PANEL 1: HERO OVERVIEW -->
+        <section class="gaming-panel active" id="sec-home">
+          <div class="hero-cinematic-banner">
+            <span class="sec-badge-tag"><i class="fas fa-radiation"></i> CORE_OVERVIEW // MISSION_INIT</span>
+            <h1 class="hero-huge-title glitch-text" id="hero-title" data-text="SACHIN KUMAR">SACHIN KUMAR</h1>
+            <div class="hero-subtitle-container">
+              <span class="console-prompt">></span>
+              <span class="hero-typing-subtitle" id="typing-sub-target"></span>
+            </div>
+            <p class="hero-narrator-desc">
+              Booting full-screen snaps for an aspiring engineer focusing on modern responsive UI layout builds, database logic layers, and extreme high-impact web design systems.
+            </p>
+            <button class="gaming-btn cta-btn magnetic-btn" id="home-enter-btn">
+              <span class="btn-text">ENTER MY WORLD</span>
+              <span class="btn-subtext">LOAD_PORTFOLIO_</span>
+            </button>
+          </div>
+
+          <div class="scroll-down-hud-indicator">
+            <span class="indicator-mouse"><span class="mouse-wheel"></span></span>
+            <span class="indicator-label">SCROLL / PRESS KEY [E] TO START TRANSIT</span>
+          </div>
+        </section>
+
+        <!-- PANEL 2: CORE BIO -->
+        <section class="gaming-panel" id="sec-about">
+          <div class="section-title-hud">
+            <span class="sec-number">02</span>
+            <div class="title-text-group">
+              <h2>CORE_BIOGRAPHY</h2>
+              <p>Personal credentials registry and active university node records.</p>
+            </div>
+          </div>
+
+          <div class="glass-layout-grid grid-2col">
+            <!-- Details Sheet -->
+            <div class="cyber-glass-panel highlight-border-cyan">
+              <span class="panel-decor-tag">SNAPSHOT_REGISTRY_</span>
+              <div class="profile-sheet">
+                <div class="sheet-row">
+                  <span class="sheet-label">CODENAME:</span>
+                  <span class="sheet-value" id="about-name">Sachin Kumar</span>
+                </div>
+                <div class="sheet-row">
+                  <span class="sheet-label">GRID_SECTOR:</span>
+                  <span class="sheet-value" id="about-location">Bihar, India</span>
+                </div>
+                <div class="sheet-row">
+                  <span class="sheet-label">NODE LEVEL:</span>
+                  <span class="sheet-value text-cyan" id="about-studying">B.Tech CSE Semester 3</span>
+                </div>
+                <div class="sheet-row">
+                  <span class="sheet-label">UNIVERSITY:</span>
+                  <span class="sheet-value text-purple" id="about-university">Parul University</span>
+                </div>
+              </div>
+              <div class="glass-divider"></div>
+              <h3>Mission Directive</h3>
+              <p class="narrative-paragraph" id="about-desc">
+                Passionate Computer Science student focused on creating modern web experiences using HTML, CSS, JavaScript, and continuously learning new technologies. I enjoy building futuristic UI, solving real-world problems, and turning ideas into interactive digital experiences.
+              </p>
+            </div>
+
+            <!-- Telemetry Stats -->
+            <div class="cyber-glass-panel highlight-border-purple flex-column-layout">
+              <span class="panel-decor-tag">TELEMETRY_LOGISTICS_</span>
+              <h3>System Metrics</h3>
+              
+              <div class="telemetry-stats-grid">
+                <div class="telemetry-stat-card">
+                  <span class="metric-value text-cyan" id="stat-projects">0</span>
+                  <span class="metric-label">Projects Completed</span>
+                </div>
+                <div class="telemetry-stat-card">
+                  <span class="metric-value text-purple" id="stat-technologies">0</span>
+                  <span class="metric-label">Active Modules</span>
+                </div>
+                <div class="telemetry-stat-card">
+                  <span class="metric-value text-pink" id="stat-experience">1+</span>
+                  <span class="metric-label">Development Years</span>
+                </div>
+                <div class="telemetry-stat-card">
+                  <span class="metric-value text-green" id="stat-learning">0%</span>
+                  <span class="metric-label">Learning Progress</span>
+                </div>
+              </div>
+
+              <div class="glass-divider"></div>
+
+              <h3>Audio Synthesis Diagnostics</h3>
+              <div class="system-diagnostics-console">
+                <div class="diag-line"><span class="diag-ok">[OK]</span> Web Speech Audio API compiled.</div>
+                <div class="diag-line"><span class="diag-ok">[OK]</span> Parul University CSE Node connected.</div>
+                <div class="diag-line"><span class="diag-ok">[OK]</span> Fullscreen snap-lock engine active.</div>
+                <div class="diag-line text-pink"><span class="diag-warning">[WARN]</span> Intercepting normal scrolling inputs.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL 3: COGNITIVE MODULES (SKILLS) -->
+        <section class="gaming-panel" id="sec-skills">
+          <div class="section-title-hud">
+            <span class="sec-number">03</span>
+            <div class="title-text-group">
+              <h2>COGNITIVE_MODULES</h2>
+              <p>Active development metrics and incoming roadmap integration.</p>
+            </div>
+          </div>
+
+          <div class="cyber-glass-panel full-width-panel highlight-border-cyan">
+            <span class="panel-decor-tag">CAPABILITIES_METER_</span>
+            <div class="skills-meters-container" id="skills-core-container">
+              <!-- Rendered Dynamically from CONFIG.skills.core -->
+            </div>
+          </div>
+
+          <div class="glass-layout-grid grid-2col mt-20">
+            <div class="cyber-glass-panel highlight-border-purple">
+              <span class="panel-decor-tag">FUTURE_ROADMAP_</span>
+              <h3>Incoming Library Integration</h3>
+              <div class="skills-future-grid" id="skills-future-container">
+                <!-- Rendered Dynamically from CONFIG.skills.future -->
+              </div>
+            </div>
+            <div class="cyber-glass-panel highlight-border-pink">
+              <span class="panel-decor-tag">DIAGNOSTICS_RADAR_</span>
+              <div class="radar-hud-graphics">
+                <div class="radar-sweep-lines"></div>
+                <div class="radar-axis-x"></div>
+                <div class="radar-axis-y"></div>
+                <div class="radar-blip blip-1"></div>
+                <div class="radar-blip blip-2"></div>
+                <div class="radar-blip blip-3"></div>
+                <span class="radar-readout">COGNITIVE RADAR SCAN: 4 STACK ELEMENTS INBOUND</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL 4: DEPLOYMENTS (PROJECTS) -->
+        <section class="gaming-panel" id="sec-projects">
+          <div class="section-title-hud">
+            <span class="sec-number">04</span>
+            <div class="title-text-group">
+              <h2>ACTIVE_DEPLOYMENTS</h2>
+              <p>Holographic interactive project listings. Hover cards for 3D tilt adjustments.</p>
+            </div>
+          </div>
+
+          <div class="gaming-projects-cards-grid" id="projects-cards-container">
+            <!-- Rendered Dynamically from CONFIG.projects -->
+          </div>
+        </section>
+
+        <!-- PANEL 5: JOURNEY TIMELINE -->
+        <section class="gaming-panel" id="sec-timeline">
+          <div class="section-title-hud">
+            <span class="sec-number">05</span>
+            <div class="title-text-group">
+              <h2>JOURNEY_TIMELINE</h2>
+              <p>Chronological trace of coding milestones and academic journey.</p>
+            </div>
+          </div>
+
+          <div class="cyber-glass-panel full-width-panel highlight-border-purple">
+            <span class="panel-decor-tag">SYSTEM_CHRONOLOGY_</span>
+            <div class="timeline-trail-wireframe" id="timeline-container">
+              <!-- Rendered Dynamically from CONFIG.timeline -->
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL 6: METRIC ACHIEVEMENTS -->
+        <section class="gaming-panel" id="sec-achievements">
+          <div class="section-title-hud">
+            <span class="sec-number">06</span>
+            <div class="title-text-group">
+              <h2>METRIC_ACHIEVEMENTS</h2>
+              <p>Automated verification counters representing developer metrics.</p>
+            </div>
+          </div>
+
+          <div class="achievements-counters-grid" id="achievements-container">
+            <!-- Rendered Dynamically from CONFIG.achievements -->
+          </div>
+        </section>
+
+        <!-- PANEL 7: SERVICES -->
+        <section class="gaming-panel" id="sec-services">
+          <div class="section-title-hud">
+            <span class="sec-number">07</span>
+            <div class="title-text-group">
+              <h2>SERVICES_MATRIX</h2>
+              <p>Overview of technical consultation skills and design services.</p>
+            </div>
+          </div>
+
+          <div class="services-flex-grid" id="services-container">
+            <!-- Rendered Dynamically from CONFIG.services -->
+          </div>
+        </section>
+
+        <!-- PANEL 8: COMMS BRIDGE (CONTACT) -->
+        <section class="gaming-panel" id="sec-contact">
+          <div class="section-title-hud">
+            <span class="sec-number">08</span>
+            <div class="title-text-group">
+              <h2>COMMUNICATIONS_BRIDGE</h2>
+              <p>Submit payload packets or secure external web page shortcuts.</p>
+            </div>
+          </div>
+
+          <div class="glass-layout-grid grid-2col">
+            <!-- Comms buttons -->
+            <div class="cyber-glass-panel highlight-border-cyan flex-column-layout">
+              <span class="panel-decor-tag">DIRECT_COMMS_INDEX_</span>
+              <h3>Terminal Connections</h3>
+              
+              <div class="comms-buttons-hub" id="comms-buttons-container">
+                <!-- Rendered Dynamically from CONFIG.socials -->
+              </div>
+
+              <div class="glass-divider"></div>
+              
+              <div class="secure-crypt-box">
+                <span class="crypt-label"><i class="fas fa-key"></i> COMMUNICATIONS_SECURITY_KEY:</span>
+                <span class="crypt-key" id="comms-crypt-key">SK-SECURE-KEY</span>
+              </div>
+            </div>
+
+            <!-- Comms Form -->
+            <div class="cyber-glass-panel highlight-border-pink">
+              <span class="panel-decor-tag">TRANSMIT_DATA_STREAM_</span>
+              <h3>Encrypt & Transmit Payload</h3>
+              
+              <form class="cyber-comms-form" id="payload-form" onsubmit="event.preventDefault(); alert('Transmission encrypted and sent successfully.');">
+                <div class="form-row-grid">
+                  <div class="form-group-item">
+                    <label for="sender-name-input"><i class="fas fa-user"></i> SENDER_CODENAME</label>
+                    <input type="text" id="sender-name-input" placeholder="ENTER CODENAME" required>
+                  </div>
+                  <div class="form-group-item">
+                    <label for="sender-email-input"><i class="fas fa-envelope"></i> SENDER_EMAIL</label>
+                    <input type="email" id="sender-email-input" placeholder="ENTER MAIL ADDRESS" required>
+                  </div>
+                </div>
+                <div class="form-group-item">
+                  <label for="sender-subject-input"><i class="fas fa-tags"></i> TRANSMIT_SUBJECT</label>
+                  <input type="text" id="sender-subject-input" placeholder="ENTER SUBJECT" required>
+                </div>
+                <div class="form-group-item">
+                  <label for="sender-payload-input"><i class="fas fa-file-alt"></i> PAYLOAD_DATA_STREAM</label>
+                  <textarea id="sender-payload-input" rows="4" placeholder="TYPE SECURE TRANSMISSION Telemetry..." required></textarea>
+                </div>
+                <button type="submit" class="gaming-btn transmit-btn" id="transmit-btn">
+                  <span class="btn-text">TRANSMIT PAYLOAD //</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- HUD SNAP NAVIGATION FOOTER (Snap slide keys) -->
+        <footer class="hud-main-footer">
+          <div class="footer-key-indicators">
+            <span class="hud-key-btn" id="prev-sector-key"><i class="fas fa-chevron-left"></i> PREV_SECTOR [Q]</span>
+            <span class="hud-key-btn" id="next-sector-key">NEXT_SECTOR [E] <i class="fas fa-chevron-right"></i></span>
+          </div>
+          <div class="footer-copy hide-mobile">
+            <span>© 2026 SACHIN KUMAR // OS CORE V2.0</span>
+          </div>
+          <div class="footer-latency">
+            <span class="footer-latency-label">RTT:</span>
+            <span class="footer-latency-value" id="ping-latency">12ms</span>
+          </div>
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Javascript Core Configuration -->
+  <script src="config.js"></script>
+
+  <!-- GSAP Core and Plugins for Motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  
+  <!-- Typed.js Library for console text streams -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- Interactive JavaScript Engine -->
+  <script src="script.js"></script>
+</body>
+</html>
